@@ -7,9 +7,9 @@ Um youtube player de audio via terminal (Utilizavel | Porém em construção/mel
 
 ## Como usar:
  ** Por um terminal use o comando `tubecast (SUA URL DO YOUTUBE)´ 
- - Em caso do link ser uma playlist, apague tudo o que estuver fora do campo "list=", ficando como no exemplo:
-`https://youtube.com/watch?list=PLavcTjFDs2u5f6IDqbuIMUb_W5uBzyzuZ`
-  ** O seu histórico está em ~/.config/tubecast.hist
+ - Em caso do link ser uma playlist, apague tudo o que estiver fora do campo "list=", ficando como no exemplo:
+ `https://youtube.com/watch?list=PLavcTjFDs2u5f6IDqbuIMUb_W5uBzyzuZ`
+ ** O seu histórico está em ~/.config/tubecast.hist
 
 ## Instalando:
  ** Debian | Arch e seus derivados
