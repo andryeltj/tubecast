@@ -1,0 +1,45 @@
+#! /bin/bash
+## sudo apt install yt-dlp ffmpeg webp-pixbuf-loader libsixel1 imagemagick
+## sudo apk add bash viu [[ ALPINE ]]
+## https://archlinux.org/packages/extra/x86_64/viu/download/ [[ DEBIAN | UBUNTU | ARCH ]]
+## 
+
+inlink=$1
+lang=$(echo $LANG | awk -F '.' '{print $1}' | sed 's/_/-/g')
+lcod="bestaudio"
+echo $inlink >> ~/.config/tubecast.hist
+
+playaudio(){
+
+protocod=$(yt-dlp --list-formats --skip-download "$inlink" | awk '/'$lang'/{print $0}' | tail -n 1 | awk -F " " '{print $1}' &)
+clear
+if [ -f /tmp/tubecast.webp ]; then rm -Rf /tmp/tubecast.webp; fi
+yt-dlp --write-thumbnail --skip-download $inlink -o /tmp/tubecast | tr ' ' '\sn'
+if [ -f /tmp/tubecast.jpg ]; then convert /tmp/tubecast.jpg /tmp/tubecast.webp; rm -Rf /tmp/tubecast.jpg; fi
+if [ -f /tmp/tubecast.png ]; then convert /tmp/tubecast.png /tmp/tubecast.webp; rm -Rf /tmp/tubecast.png; fi
+if [ "$protocode" != "" ]; then lcod=$protocod; fi
+vtitle=$(yt-dlp --skip-download --print "%(title)s" $inlink)
+clear
+echo "TubeCast Reproduzindo: " "\""$vtitle"\""
+echo \"$inlink\"
+viu -w 64 /tmp/tubecast.webp
+
+yt-dlp -c -f $lcod $inlink -o - 2>/dev/null | ffplay -hide_banner -loglevel error -nodisp -autoexit -i - &>/dev/null
+}
+
+getplaylist() {
+##yt-dlp --skip-download https://www.youtube.com/watch?list=PLavcTjFDs2u5Ru6qEP2OFJj-qGKXH26PN --write-link | awk -F 'URL:' '//{print $2}'
+listlink=$(echo $inlink | awk -F 'list=' '{print $2}' | awk -F "&" '{print $1}' | awk -F "?" '{print $1}')
+inlink="https://www.youtube.com/watch?list=$listlink"
+plist=$(yt-dlp --skip-download "$inlink" | awk -F 'URL:' '//{print $2}')
+plist=$(echo $plist | cut -d\  -f3- | sed 's/ /,/g')
+IFS=',' read -ra array <<< "$plist"
+for element in "${array[@]}"
+do
+    #echo "$element"
+    inlink=$element; playaudio; lcod="bestaudio"
+done
+
+}
+
+if [ $(echo "$inlink" | grep -o "list=" ) ]; then echo "Obtendo Playlist..."; getplaylist; else echo "Ouvindo"; playaudio; fi
