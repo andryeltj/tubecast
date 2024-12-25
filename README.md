@@ -17,9 +17,13 @@ Um youtube player de audio via terminal (Utilizavel | Porém em construção/mel
 ## Instalando:
  ** Debian | Arch e seus derivados
  - instale as dependencias:
+   
  `sudo apt install yt-dlp ffmpeg webp-pixbuf-loader libsixel1 imagemagick`
+ 
  - baixe o arquivo do link abaixo, extraia o binário em /usr/bin no arquivo, para `/usr/bin` do seu sistema
+
  `https://archlinux.org/packages/extra/x86_64/viu/download/`
+ 
  - baixe o `tubecast`, mova para sua `/usr/bin`, concedendo as permissões de execução.
 
    
